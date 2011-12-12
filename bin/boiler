@@ -1,0 +1,183 @@
+#!/usr/bin/env php
+<?php
+
+// Remove time limits, this could take a while..
+set_time_limit(0);
+
+// Vendors list
+$vendorsArchive = array(
+	'assetic' => 'http://github.com/kriswallsmith/assetic.git',
+	'AsseticBundle' => 'http://github.com/symfony/AsseticBundle.git',
+	'cachew' => 'http://github.com/syntaqx/cachew',
+	'cryptonite' => 'http://github.com/syntaqx/cryptonite.git',
+	'doctrine' => 'http://github.com/doctrine/doctrine2.git',
+	'doctrine-common' => 'http://github.com/doctrine/common.git',
+	'doctrine-dbal' => 'http://github.com/doctrine/dbal.git',
+	'metadata' => 'http://github.com/schmittjoh/metadata.git',
+	'monolog' => 'http://github.com/Seldaek/monolog.git',
+	'swiftmailer' => 'http://github.com/swiftmailer/swiftmailer.git',
+	'twig' => 'http://github.com/fabpot/Twig.git',
+	'twig-extensions' => 'http://github.com/fabpot/Twig-extensions.git',
+);
+
+// What's the vendor directory?
+$vendorDir = '../vendors';
+
+// Make sure we're working over CLI
+if(!isset($argv))
+{
+	exit('Boiler is meant to be interacted with via the CLI');
+}
+
+// Display a line break
+echo \PHP_EOL;
+
+// Shift off the first argument, it won't be needed.
+\array_shift($argv);
+
+if(!isset($argv[0]))
+{
+	exit(<<<EOF
+boiler 0.0.1 for PHP 5.3
+	
+Usage: boiler command [--options]
+       boiler command install|remove vendor1 [vendor2 ...]
+       boiler update --reinstall vendor1 [vendor2]
+
+boiler is a simple command line interface for downloading and
+installing external libraries and packages, called vendors.
+The most frequently used commands are update and install.
+
+Boiler Commands:
+
+   update  - Perform an update of boiler, and the package list
+
+Package Commands:
+
+   install - Install new packages
+   upgrade - Perform an upgrade of boiler
+   remove  - Remove packages
+   
+Options:
+
+   reinstall - Replaces current package installations with new sources
+
+EOF
+	);
+}
+
+// Is the vendor directory good stuff?
+if($vendorDir === false and !\mkdir($vendorDir, 0777, true))
+{
+	exit(\sprintf('E: Could not locate the vendor directory %s', $vendorDir));
+}
+
+$vendorDir = \realpath($vendorDir);
+
+if(!\is_writable($vendorDir) and !\chmod($vendorDir, 0777))
+{
+	exit(sprintf('E: Could not write to vendor directory %s', $vendorDir));
+}
+
+$command = \array_shift($argv);
+$options = array();
+$vendors = array();
+
+foreach($argv as $arg)
+{
+	if(\substr($arg, 0, 1) == '-')
+	{
+		$options[] = \ltrim($arg, '-');
+	}
+	else
+	{
+		$vendors[] = $arg;
+	}
+}
+
+// Clean up duplicates and empty vendor names
+$vendors = \array_filter(\array_unique($vendors));
+
+// Clean up any memory
+unset($opt, $arg, $argv);
+
+switch(\strtolower($command))
+{
+	case 'update':
+	{
+		echo 'Getting http://boiler.phpboilerplate.com'.\PHP_EOL;
+
+		if(($latest = @\file_get_contents('http://boiler.phpboilerplate.com')) == false)
+		{
+			exit('Could not connect, exiting.'.\PHP_EOL);
+		}
+
+		$current = @\file_get_contents(__FILE__);
+
+		if($current == $latest)
+		{
+			exit('Already at latest version, exiting.'.\PHP_EOL);
+		}
+
+		if(!@\file_put_contents(__FILE__, \rtrim($latest)))
+		{
+			exit('Could not update boiler file, please make sure it is writable.'.\PHP_EOL);
+		}
+
+		exit('Successfully updated, goodbye!'.\PHP_EOL);
+	}
+	break;
+	case 'install':
+	{
+		foreach($vendors as $key => $vendor)
+		{
+			if(!isset($vendorsArchive[$vendor]))
+			{
+				echo \sprintf('Vendor [%s] does not exist, skipping...'.PHP_EOL, $vendor);
+				continue;
+			}
+
+			echo \sprintf('Installing vendor %s...'.\PHP_EOL, $vendor);
+			$installDir = $vendorDir.\DIRECTORY_SEPARATOR.$vendor;
+
+			if(\is_dir($installDir) and !\in_array('reinstall', $options))
+			{
+				echo \sprintf('E: Could not install vendor %s, already installed', $vendor).\PHP_EOL;
+			}
+			else
+			{
+				if(\is_dir($installDir))
+				{
+					\system(\sprintf((\PHP_OS == 'WINNT' ? 'rmdir /S /Q %s' : 'rm -rf %s'), \escapeshellarg($installDir)));
+				}
+
+				\system(\sprintf('git clone %s %s', \escapeshellarg($vendorsArchive[$vendor]), \escapeshellarg($installDir)));
+			}
+		}
+	}
+	break;
+	case 'remove':
+	{
+		foreach($vendors as $key => $vendor)
+		{
+			$installDir =$vendorDir.\DIRECTORY_SEPARATOR.$vendor;
+
+			if(\is_dir($installDir))
+			{
+				\system(\sprintf((\PHP_OS == 'WINNT' ? 'rmdir /S /Q %s' : 'rm -rf %s'), \escapeshellarg($installDir)));
+
+				echo \sprintf('Vendor %s successfully removed', $vendor).\PHP_EOL;
+			}
+			else
+			{
+				echo \sprintf('Could not remove vendor %s, no installation found', $vendor).\PHP_EOL;
+			}
+		}
+	}
+	break;
+	default:
+		exit(sprintf('E: Invalid operation %s', $command));
+	break;
+}
+
+/* End of file boiler */

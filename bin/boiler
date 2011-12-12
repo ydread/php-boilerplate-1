@@ -20,6 +20,7 @@ $vendorsArchive = array(
 	'doctrine' => 'http://github.com/doctrine/doctrine2.git',
 	'doctrine-common' => 'http://github.com/doctrine/common.git',
 	'doctrine-dbal' => 'http://github.com/doctrine/dbal.git',
+	'imagine' => 'http://github.com/avalanche123/Imagine.git',
 	'metadata' => 'http://github.com/schmittjoh/metadata.git',
 	'monolog' => 'http://github.com/Seldaek/monolog.git',
 	'swiftmailer' => 'http://github.com/swiftmailer/swiftmailer.git',
@@ -112,9 +113,9 @@ switch(\strtolower($command))
 {
 	case 'update':
 	{
-		echo 'Getting https://raw.github.com/phpbp/php-boilerplate/master/bin/boiler'.\PHP_EOL;
+		echo 'Getting http://boiler.phpboilerplate.com'.\PHP_EOL;
 
-		if(($latest = @\file_get_contents('https://raw.github.com/phpbp/php-boilerplate/master/bin/boiler')) == false)
+		if(($latest = @\file_get_contents('http://boiler.phpboilerplate.com')) == false)
 		{
 			exit('Could not connect, exiting.'.\PHP_EOL);
 		}

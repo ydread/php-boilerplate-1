@@ -1,6 +1,13 @@
 #!/usr/bin/env php
 <?php
 
+/**
+ * PHP Boiler
+ *
+ * The boiler is a simple command line utility to aid in the management of
+ * vendor packages within your application.
+ */
+
 // Remove time limits, this could take a while..
 set_time_limit(0);
 
@@ -105,9 +112,9 @@ switch(\strtolower($command))
 {
 	case 'update':
 	{
-		echo 'Getting http://boiler.phpboilerplate.com'.\PHP_EOL;
+		echo 'Getting https://raw.github.com/phpbp/php-boilerplate/master/bin/boiler'.\PHP_EOL;
 
-		if(($latest = @\file_get_contents('http://boiler.phpboilerplate.com')) == false)
+		if(($latest = @\file_get_contents('https://raw.github.com/phpbp/php-boilerplate/master/bin/boiler')) == false)
 		{
 			exit('Could not connect, exiting.'.\PHP_EOL);
 		}

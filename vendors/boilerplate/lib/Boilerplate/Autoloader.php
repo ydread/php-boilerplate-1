@@ -199,25 +199,25 @@ class Autoloader
 	{
 		if('\\' == $class[0])
 		{
-			$class = substr($class, 1);
+			$class = \substr($class, 1);
 		}
 
-		if(false !== $pos = strrpos($class, '\\'))
+		if(false !== $pos = \strrpos($class, '\\'))
 		{
 			// namespaced class name
-			$namespace = substr($class, 0, $pos);
+			$namespace = \substr($class, 0, $pos);
 
 			foreach($this->namespaces as $ns => $dirs)
 			{
-				if(0 !== strpos($namespace, $ns))
+				if(0 !== \strpos($namespace, $ns))
 				{
 					continue;
 				}
 
 				foreach($dirs as $dir)
 				{
-					$className = substr($class, $pos + 1);
-					$file = $dir.DIRECTORY_SEPARATOR.str_replace('\\', DIRECTORY_SEPARATOR, $namespace).DIRECTORY_SEPARATOR.str_replace('_', DIRECTORY_SEPARATOR, $className).'.php';
+					$className = \substr($class, $pos + 1);
+					$file = $dir.\DIRECTORY_SEPARATOR.str_replace('\\', \DIRECTORY_SEPARATOR, $namespace).\DIRECTORY_SEPARATOR.\str_replace('_', \DIRECTORY_SEPARATOR, $className).'.php';
 
 					if(file_exists($file))
 					{
@@ -228,7 +228,7 @@ class Autoloader
 
 			foreach($this->namespaceFallbacks as $dir)
 			{
-				$file = $dir.DIRECTORY_SEPARATOR.str_replace('\\', DIRECTORY_SEPARATOR, $class).'.php';
+				$file = $dir.\DIRECTORY_SEPARATOR.\str_replace('\\', \DIRECTORY_SEPARATOR, $class).'.php';
 
 				if(file_exists($file))
 				{
@@ -241,14 +241,14 @@ class Autoloader
 			// PEAR-like class name
 			foreach($this->prefixes as $prefix => $dirs)
 			{
-				if(0 !== strpos($class, $prefix))
+				if(0 !== \strpos($class, $prefix))
 				{
 					continue;
 				}
 
 				foreach($dirs as $dir)
 				{
-					$file = $dir.DIRECTORY_SEPARATOR.str_replace('_', DIRECTORY_SEPARATOR, $class).'.php';
+					$file = $dir.\DIRECTORY_SEPARATOR.\str_replace('_', \DIRECTORY_SEPARATOR, $class).'.php';
 
 					if(file_exists($file))
 					{
@@ -259,9 +259,9 @@ class Autoloader
 
 			foreach($this->prefixFallbacks as $dir)
 			{
-				$file = $dir.DIRECTORY_SEPARATOR.str_replace('_', DIRECTORY_SEPARATOR, $class).'.php';
+				$file = $dir.\DIRECTORY_SEPARATOR.\str_replace('_', \DIRECTORY_SEPARATOR, $class).'.php';
 
-				if(file_exists($file))
+				if(\file_exists($file))
 				{
 					return $file;
 				}

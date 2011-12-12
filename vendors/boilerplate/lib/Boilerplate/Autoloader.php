@@ -14,10 +14,18 @@ namespace Boilerplate;
 /**
  * Autoloader class
  *
- * This Autoloader class implements the ability load classes that use either the
- * technical interoperability standards for PHP 5.3 namespaces and class names,
- * or the PEAR naming convention for classes.
+ * This Autoloader class is an implementation of the "universal" autoloader for
+ * PHP 5.3. It is able to load classes that use either:
  *
+ *  * The technical interoperability standards for PHP 5.3 namespaces and
+ *    class names (https://gist.github.com/1234504)
+ *  * The PEAR naming convention for classes (http://pear.php.net).
+ *
+ * Classes from a sub-namespace or sub-hierarchy of PEAR classes can be looked
+ * for in a list of locations to ease the vendoring of a sub-set of clsases for
+ * large projects.
+ *
+ * @author     Fabien Potencier <fabien@symfony.com>
  * @package    Boilerplate
  * @subpackage Library
  */
@@ -217,9 +225,9 @@ class Autoloader
 				foreach($dirs as $dir)
 				{
 					$className = \substr($class, $pos + 1);
-					$file = $dir.\DIRECTORY_SEPARATOR.str_replace('\\', \DIRECTORY_SEPARATOR, $namespace).\DIRECTORY_SEPARATOR.\str_replace('_', \DIRECTORY_SEPARATOR, $className).'.php';
+					$file = $dir.\DIRECTORY_SEPARATOR.\str_replace('\\', \DIRECTORY_SEPARATOR, $namespace).\DIRECTORY_SEPARATOR.\str_replace('_', \DIRECTORY_SEPARATOR, $className).'.php';
 
-					if(file_exists($file))
+					if(\file_exists($file))
 					{
 						return $file;
 					}
@@ -230,7 +238,7 @@ class Autoloader
 			{
 				$file = $dir.\DIRECTORY_SEPARATOR.\str_replace('\\', \DIRECTORY_SEPARATOR, $class).'.php';
 
-				if(file_exists($file))
+				if(\file_exists($file))
 				{
 					return $file;
 				}
@@ -250,7 +258,7 @@ class Autoloader
 				{
 					$file = $dir.\DIRECTORY_SEPARATOR.\str_replace('_', \DIRECTORY_SEPARATOR, $class).'.php';
 
-					if(file_exists($file))
+					if(\file_exists($file))
 					{
 						return $file;
 					}

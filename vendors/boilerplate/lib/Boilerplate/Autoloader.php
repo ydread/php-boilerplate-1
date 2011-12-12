@@ -28,48 +28,48 @@ class Autoloader
 	 *
 	 * @var    array
 	 */
-    private $namespaces = array();
+	private $namespaces = array();
 
 	/**
 	 * Configured class prefixes
 	 *
 	 * @var    array
 	 */
-    private $prefixes = array();
+	private $prefixes = array();
 
 	/**
 	 * Directory(ies) used for fallback namespacing
 	 *
 	 * @var    array
 	 */
-    private $namespaceFallbacks = array();
+	private $namespaceFallbacks = array();
 
 	/**
 	 * Directory(ies) used for fallback class prefixes
 	 *
 	 * @var    array
 	 */
-    private $prefixFallbacks = array();
+	private $prefixFallbacks = array();
 
 	/**
 	 * Gets the configured namespaces
 	 *
 	 * @return   array            A hash with namespaces as keys and directories as values
 	 */
-    public function getNamespaces()
-    {
-        return $this->namespaces;
-    }
+	public function getNamespaces()
+	{
+		return $this->namespaces;
+	}
 
-    /**
+	/**
 	 * Gets the configured class prefixes
 	 *
 	 * @return   array            A hash with class prefixes as keys and directories as values
-     */
-    public function getPrefixes()
-    {
-        return $this->prefixes;
-    }
+	 */
+	public function getPrefixes()
+	{
+		return $this->prefixes;
+	}
 
 	/**
 	 * Gets the directory(ies) to use as a fallback for namespaces
@@ -91,53 +91,53 @@ class Autoloader
 		return $this->prefixFallbacks;
 	}
 
-    /**
-     * Registers the directory to use as a fallback for namespaces.
-     *
+	/**
+	 * Registers the directory to use as a fallback for namespaces.
+	 *
 	 * @param    array            An array of directories
 	 * @return   void             No value is returned
-     */
-    public function registerNamespaceFallbacks(array $dirs)
-    {
-        $this->namespaceFallbacks = $dirs;
-    }
+	 */
+	public function registerNamespaceFallbacks(array $dirs)
+	{
+		$this->namespaceFallbacks = $dirs;
+	}
 
-    /**
-     * Registers the directory to use as a fallback for class prefixes.
-     *
+	/**
+	 * Registers the directory to use as a fallback for class prefixes.
+	 *
 	 * @param    array            An array of directories
 	 * @return   void             No value is returned
-     */
-    public function registerPrefixFallbacks(array $dirs)
-    {
-        $this->prefixFallbacks = $dirs;
-    }
+	 */
+	public function registerPrefixFallbacks(array $dirs)
+	{
+		$this->prefixFallbacks = $dirs;
+	}
 
-    /**
-     * Registers an array of namespaces
-     *
+	/**
+	 * Registers an array of namespaces
+	 *
 	 * @param    array            An array of namespaces (namespaces as keys and locations as values)
 	 * @return   void             No value is returned
-     */
-    public function registerNamespaces(array $namespaces)
-    {
-        foreach($namespaces as $namespace => $locations)
+	 */
+	public function registerNamespaces(array $namespaces)
+	{
+		foreach($namespaces as $namespace => $locations)
 		{
 			$this->registerNamespace($namespace, $locations);
-        }
-    }
+		}
+	}
 
-    /**
-     * Registers a namespace.
-     *
+	/**
+	 * Registers a namespace.
+	 *
 	 * @param    string           The namespace
 	 * @param    string|array     The location(s) of the namespace
 	 * @return   void             No value is returned
-     */
-    public function registerNamespace($namespace, $paths)
-    {
-        $this->namespaces[$namespace] = (array) $paths;
-    }
+	 */
+	public function registerNamespace($namespace, $paths)
+	{
+		$this->namespaces[$namespace] = (array) $paths;
+	}
 
 	/**
 	 * Registers an array of classes using the PEAR naming convention
@@ -145,13 +145,13 @@ class Autoloader
 	 * @param    array            An array of classes (prefixes as keys and locations as values)
 	 * @return   void             No value is returned
 	 */
-    public function registerPrefixes(array $classes)
-    {
+	public function registerPrefixes(array $classes)
+	{
 		foreach($classes as $prefix => $locations)
 		{
 			$this->registerPrefix($prefix, $locations);
 		}
-    }
+	}
 
 	/**
 	 * Registers a set of classes using the PEAR naming convention
@@ -160,10 +160,10 @@ class Autoloader
 	 * @param    string|array     The location(s) of the classes
 	 * @return   void             No value is returned
 	 */
-    public function registerPrefix($prefix, $paths)
-    {
-        $this->prefixes[$prefix] = (array) $paths;
-    }
+	public function registerPrefix($prefix, $paths)
+	{
+		$this->prefixes[$prefix] = (array) $paths;
+	}
 
 	/**
 	 * Registers this instance as an autoloader
@@ -196,8 +196,8 @@ class Autoloader
 	 * @param    string           The name of the class or interface
 	 * @return   string|null      The path if found, otherwise null
 	 */
-    public function findFile($class)
-    {
+	public function findFile($class)
+	{
 		if('\\' == $class[0])
 		{
 			$class = \substr($class, 1);
@@ -225,7 +225,7 @@ class Autoloader
 						return $file;
 					}
 				}
-            }
+			}
 
 			foreach($this->namespaceFallbacks as $dir)
 			{
@@ -236,7 +236,7 @@ class Autoloader
 					return $file;
 				}
 			}
-        }
+		}
 		// PEAR-like class names
 		else
 		{
@@ -267,8 +267,8 @@ class Autoloader
 					return $file;
 				}
 			}
-        }
-    }
+		}
+	}
 }
 
 /* End of file Autoloader.php */

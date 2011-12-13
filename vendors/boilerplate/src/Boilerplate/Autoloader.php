@@ -25,6 +25,7 @@ namespace Boilerplate;
  * for in a list of locations to ease the vendoring of a sub-set of clsases for
  * large projects.
  *
+ * @author     Chase Hutchins   <syntaqx@gmail.com>
  * @author     Fabien Potencier <fabien@symfony.com>
  * @package    Boilerplate
  * @subpackage Library
@@ -194,7 +195,10 @@ class Autoloader
 		if($file = $this->findFile($class))
 		{
 			require $file;
+			return true;
 		}
+
+		return false;
 	}
 
 	/**

@@ -1,0 +1,27 @@
+/* the humans responsible & colophon */
+/* http://humanstxt.org */
+
+/* TEAM */
+
+	Head of Development: Chase Hutchins
+	Contact: syntaqx [at] gmail.com
+	Site: http://syntaqx.com
+	Twitter: @syntaqx
+	Location: Salt Lake City, UT, US
+
+	Developer: David Landes
+	Contact: wannaswordfight [at] gmail.com
+	Site: http://www.davidlandes.net
+	Twitter: @sword_freak
+	Location: Salt Lake City, UT, US
+
+/* THANKS */
+
+	Nobody at the moment..
+
+/* SITE */
+
+	Language: English
+	Standards: HTML5, CSS3
+	Components: Modernizr, jQuery
+	Software: Netbeans 7.1, Photoshop CS 5.5

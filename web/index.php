@@ -1,7 +1,7 @@
 <?php
 
 // Bootstrap the application
-require_once '../app/bootstrap.php';
+require_once __DIR__.'/../app/bootstrap.php';
 
 // Display the unexpected
 echo 'Hello World!';

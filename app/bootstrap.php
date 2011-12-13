@@ -1,40 +1,28 @@
 <?php
 
-// Include functionality we cannot autoloader
-require_once '../vendors/boilerplate/lib/Boilerplate/Autoloader.php';
+// Include functionality we cannot autoload
+require_once '../vendors/boilerplate/src/Boilerplate/Autoloader.php';
 
 $loader = new \Boilerplate\Autoloader();
 
+// Register PSR-0 namespaces
 $loader->registerNamespaces(array(
-	'Assetic'          => __DIR__.'/../vendors/assetic/src',
-	'Boilerplate'      => __DIR__.'/../vendors/boilerplate/lib',
-	'Cryptonite'       => __DIR__.'/../vendors/cryptonite/lib',
-	'Doctrine\\Common' => __DIR__.'/../vendors/doctrine-common/lib',
-	'Doctrine\\DBAL'   => __DIR__.'/../vendors/doctrine-dbal/lib',
-	'Doctrine'         => __DIR__.'/../vendors/doctrine/lib',
-	'Monolog'          => __DIR__.'/../vendors/monolog/src',
-	'Metadata'         => __DIR__.'/../vendors/metadata/src',
+	'Boilerplate' => __DIR__.'/../vendors/boilerplate/src',
 ));
 
+// Register PEAR class prefixes
 $loader->registerPrefixes(array(
-	'Cache_'           => __DIR__.'/../vendors/cache-lite/Lite',
-    'Twig_'            => __DIR__.'/../vendor/twig/lib',
-    'Twig_Extensions_' => __DIR__.'/../vendor/twig-extensions/lib',
 ));
 
-// Now, let's register the application's library
+// Fallback PSR-0 namespaces
 $loader->registerNamespaceFallbacks(array(
-    __DIR__.'/../app/lib',
+	__DIR__.'/src',
 ));
 
-$loader->register();
+// Fallback PEAR class prefixes
+$loader->registerPrefixFallbacks(array());
 
-// Swiftmailer needs a special autoloader to allow the lazy-loading of its
-// init file (which is expensive)
-if(\is_dir(__DIR__.'/../vendors/swiftmailer'))
-{
-	require_once __DIR__.'/../vendor/swiftmailer/lib/classes/Swift.php';
-	Swift::registerAutoload(__DIR__.'/../vendor/swiftmailer/lib/swift_init.php');
-}
+// Register the Autoloader to the SPL autoload stack
+$loader->register();
 
 /* End of file bootstrap.php */

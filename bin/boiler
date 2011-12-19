@@ -14,7 +14,8 @@ set_time_limit(0);
 // Vendors list
 $vendorsArchive = array(
 	'assetic' => 'http://github.com/kriswallsmith/assetic.git',
-	'AsseticBundle' => 'http://github.com/symfony/AsseticBundle.git',
+	'assetic-bundle' => 'http://github.com/symfony/AsseticBundle.git',
+	'atom' => 'http://github.com/syntaqx/atom',
 	'cachew' => 'http://github.com/syntaqx/cachew',
 	'cryptonite' => 'http://github.com/syntaqx/cryptonite.git',
 	'doctrine' => 'http://github.com/doctrine/doctrine2.git',
